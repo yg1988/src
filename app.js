@@ -15860,15 +15860,9 @@ var Carousel = React.createClass({
 
   handleItemAnimateOutEnd: function handleItemAnimateOutEnd() {
     this.setState({
-      previousActiveIndex: null,
-      direction: null
-    }, function () {
-      this.waitForNext();
-
-      if (this.props.onSlideEnd) {
-        this.props.onSlideEnd();
-      }
-    });
+		previousActiveIndex: null,
+		direction: null
+	});
   },
 
   renderItem: function renderItem(child, index) {
@@ -16618,8 +16612,8 @@ var DropdownStateMixin = {
     }
 
     this.setState({
-      open: newState
-    }, onStateChangeComplete);
+		open: newState
+	});
   },
 
   handleDocumentKeyUp: function handleDocumentKeyUp(e) {
@@ -18245,10 +18239,8 @@ var OverlayTrigger = React.createClass({
 
   show: function show() {
     this.setState({
-      isOverlayShown: true
-    }, function () {
-      this.updateOverlayPosition();
-    });
+		isOverlayShown: true
+	});
   },
 
   hide: function hide() {
@@ -27426,7 +27418,7 @@ function ReactComponent(props, context) {
  * @final
  * @protected
  */
-ReactComponent.prototype.setState = function(partialState, callback) {
+ReactComponent.prototype.setState = function (partialState:Object) {
   ("production" !== process.env.NODE_ENV ? invariant(
     typeof partialState === 'object' ||
     typeof partialState === 'function' ||

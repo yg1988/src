@@ -15,7 +15,7 @@
 <body>
   <!-- This script adds the Roboto font to our project. For more detail go to this site:  http://www.google.com/fonts#UsePlace:use/Collection:Roboto:400,300,500 -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-  <script src="https://api.trello.com/1/client.js?key=00f1dd1e00000f1dd1e00000f1dd1e00&dummy=.js"></script>
+  <script src="https://api.trello.com/1/client.js?key=1533317dcd0ad93044ecc88badae23d7"></script>
   <script>
     var WebFontConfig = {
       google: { families: [ 'Roboto:400,300,500:latin' ] }
@@ -29,18 +29,7 @@
       var s = document.getElementsByTagName('script')[0];
       s.parentNode.insertBefore(wf, s);
     })();
-    var onAuthorize = function() {
-      var isLoggedIn = Trello.authorized();
-      if(isLoggedIn)alert('authorized');else  alert('unauthorized');
 
-    };
-    $.document.ready(function() {
-      Trello.authorize({
-        interactive: false,
-        success: onAuthorize
-      });
-    })
-    }
   </script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
   <script src="app.js"></script>

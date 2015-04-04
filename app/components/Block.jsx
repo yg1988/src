@@ -8,6 +8,9 @@ var Card = require('./Card.jsx');
 
 
 var Block = React.createClass({
+	propTypes: {
+		children: React.PropTypes.array
+	},
 
   render: function() {
 	var CardPerList = this.props.data.map(function(card,index){
@@ -20,7 +23,7 @@ var Block = React.createClass({
 				{CardPerList}
 		</Well>
     );
-  },
+  }
 });
 
 module.exports = Block; 

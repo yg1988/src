@@ -1,12 +1,15 @@
 
 
 var React = require('react');
+mui = require('material-ui');
+var Snackbar=mui.Snackbar;
+
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 
 /** trello api copied over */
 (function(){
-    var opts={"version":1,"apiEndpoint":"https://api.trello.com","authEndpoint":"https://trello.com","key":"00f1dd1e00000f1dd1e00000f1dd1e00"};
+    var opts={"version":1,"apiEndpoint":"https://api.trello.com","authEndpoint":"https://trello.com","key":"1533317dcd0ad93044ecc88badae23d7"};
     var deferred,isFunction,isReady,ready,waitUntil,wrapper,__slice=[].slice;
     wrapper=function(c,g,b){var f,d,l,w,y,m,r,n,z,x,e,s,t,u,h,v,p;m=b.key;e=b.token;d=b.apiEndpoint;l=b.authEndpoint;s=b.version;y=""+d+"/"+s+"/";n=c.location;f={version:function(){return s},key:function(){return m},setKey:function(a){m=a},token:function(){return e},setToken:function(a){e=a},rest:function(){var a,c,d,k;c=arguments[0];a=2<=arguments.length?__slice.call(arguments,1):[];k=z(a);d=k[0];a=k[1];b={url:""+y+d,type:c,data:{},dataType:"json",success:k[2],error:k[3]};g.support.cors||(b.dataType=
         "jsonp","GET"!==c&&(b.type="GET",g.extend(b.data,{_method:c})));m&&(b.data.key=m);e&&(b.data.token=e);null!=a&&g.extend(b.data,a);return g.ajax(b)},authorized:function(){return null!=e},deauthorize:function(){e=null;t("token",e)},authorize:function(a){var q,d,k,f,h;b=g.extend(!0,{type:"redirect",persist:!0,interactive:!0,scope:{read:!0,write:!1,account:!1},expiration:"30days"},a);a=/[&#]?token=([0-9a-f]{64})/;d=function(){if(b.persist&&null!=e)return t("token",e)};b.persist&&null==e&&(e=x("token"));
@@ -15,7 +18,7 @@ var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
         function(){return this.rest.apply(this,[a].concat(__slice.call(arguments)))}};h=0;for(v=p.length;h<v;h++)d=p[h],u(d);f.del=f["delete"];p="actions cards checklists boards lists members organizations lists".split(" ");u=function(a){return f[a]={get:function(b,c,d,e){return f.get(""+a+"/"+b,c,d,e)}}};h=0;for(v=p.length;h<v;h++)d=p[h],u(d);c.Trello=f;w=function(a){return l+"/"+s+"/authorize?"+g.param(g.extend({response_type:"token",key:m},a))};z=function(a){var b,c,d;c=a[0];b=a[1];d=a[2];a=a[3];isFunction(b)&&
     (a=d,d=b,b={});c=c.replace(/^\/*/,"");return[c,b,d,a]};d=function(a){var b;a.origin===l&&(null!=(b=a.source)&&b.close(),e=null!=a.data&&4<a.data.length?a.data:null,isReady("authorized",f.authorized()))};r=c.localStorage;null!=r?(x=function(a){return r["trello_"+a]},t=function(a,b){return null===b?delete r["trello_"+a]:r["trello_"+a]=b}):x=t=function(){};"function"===typeof c.addEventListener&&c.addEventListener("message",d,!1)};deferred={};ready={};
     waitUntil=function(c,g){return null!=ready[c]?g(ready[c]):(null!=deferred[c]?deferred[c]:deferred[c]=[]).push(g)};isReady=function(c,g){var b,f,d,l;ready[c]=g;if(deferred[c])for(f=deferred[c],delete deferred[c],d=0,l=f.length;d<l;d++)b=f[d],b(g)};isFunction=function(c){return"function"===typeof c};wrapper(window,jQuery,opts);
-})();
+})()
 
 var Card = React.createClass({
     markAsRead: function (e) {
@@ -37,49 +40,54 @@ var Card = React.createClass({
     },
     messageTyped:function(e){
         this.setState({value:e.target.value});
+
+    },
+    listenForEnter:function(e){
+        if(e.keyCode==13)
+            this.submitMessage();
     },
     showOrHideMessageBox: function () {
         this.setState({flipped: !this.state.flipped});
     },
     submitMessage: function () {
         this.setState({flipped: !this.state.flipped});
-        $.ajax({
-            type: "POST",
-            url: "https://api.trello.com/1/cards/" + this.props.card.id + "/actions/comments?key=1533317dcd0ad93044ecc88badae23d7&token=3051680bf84503aefd5650edeb1f02d3c92ff2c12ccfd53196e35b3ee25eb122",
-            data:{text:this.state.value},
-            success: function(e) {
-                alert("success");
-                console.log(e);
-            },
-            error: function(e) {
-                alert("failure");
-                console.log(e);
-            }
-        });
-        //var onAuthorize = function() {
-        //    var isLoggedIn = Trello.authorized();
-        //    if(isLoggedIn)alert('Im in')
-        //
-        //    Trello.post("cards/" + this.props.card.id + "/actions/comments", { text: this.state.value })
-        //        .then(function(){
-        //            this.setState({value: ''});
-        //            alert('success');
-        //        })
-        //    alert('success');
-        //};
-        //console.log(Trello);
-        //Trello.authorize({
-        //    type: "popup",
-        //    success: onAuthorize,
-        //    failure:function(e){
-        //        alert(failure);
+        //$.ajax({
+        //    type: "POST",
+        //    url: "https://api.trello.com/1/cards/" + this.props.card.id + "/actions/comments?key=1533317dcd0ad93044ecc88badae23d7&token=3051680bf84503aefd5650edeb1f02d3c92ff2c12ccfd53196e35b3ee25eb122",
+        //    data:{text:this.state.value},
+        //    success: function(e) {
+        //        alert("success");
         //        console.log(e);
         //    },
-        //    scope: { write: true, read: true }
+        //    error: function(e) {
+        //        alert("failure");
+        //        console.log(e);
+        //    }
         //});
+        var onAuthorize = function() {
+
+            Trello.post("cards/" + this.props.card.id + "/actions/comments", { text: this.state.value })
+                .then(function(){
+                    this.setState({value: '',message:"Comment added to card "+this.props.card.id});
+                    this.refs.mySnack.show();
+                    setTimeout(this.DismissSnack,3000);
+                }.bind(this))
+
+        }.bind(this);
+        Trello.authorize({
+            type: "popup",
+            success: onAuthorize,
+            failure:function(e){
+                alert(failure);
+                console.log(e);
+            },
+            scope: { write: true, read: true }
+        });
         //alert('in');
     },
-
+    DismissSnack: function() {
+        this.refs.mySnack.dismiss();
+    },
     render: function () {
         var cx = React.addons.classSet;
 
@@ -90,10 +98,12 @@ var Card = React.createClass({
             'unread': this.state.unRead,
 
         });
+
+
         var commentBox = <div className='oaerror danger'>
 
 
-            <textarea className="form-control input-sm " placeholder="Message" onChange={this.messageTyped}></textarea>
+            <textarea className="form-control input-sm " placeholder="Message" onChange={this.messageTyped} onKeyUp ={this.listenForEnter}></textarea>
 
 
             <button className="form-control input-sm btn btn-success greenRaiseButton" onClick={this.submitMessage}> Send</button>
@@ -104,11 +114,17 @@ var Card = React.createClass({
             <div>
                 <div className={classes} onClick={this.markAsRead}>
 					<span>
-						<a href="#" className="btn btn-xs btn-primary pull-right" onClick={this.showOrHideMessageBox}>do an
-                            action</a>
+                        <a href="#" className="glyphicon glyphicon-comment pull-right" onClick={this.showOrHideMessageBox}/>
+
 						<a href={this.props.card.url} target="trello">{this.props.card.name}</a>
 					</span>
                 </div>
+                <Snackbar
+                    message={this.state.message}
+                    action="dismiss"
+                    ref="mySnack"
+                    onActionTouchTap={this.DismissSnack}
+                    />
                 <ReactCSSTransitionGroup transitionName="example">
                     {tab}
                 </ReactCSSTransitionGroup>
